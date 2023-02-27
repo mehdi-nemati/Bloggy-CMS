@@ -1,0 +1,97 @@
+﻿@page "/Account/Login"
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Bloggy.Shared.SharedResources> _localizer
+
+@model Bloggy.Web.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    Layout = "/Views/Shared/_IdentityLayout.cshtml";
+}
+
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #fff;
+    }
+
+    form {
+        text-align: center !important;
+    }
+
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: auto;
+    }
+
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @@media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+
+<main class="form-signin">
+
+    <form method="post">
+        <img src="/admin/images/bloggy-logo.jpg" alt="" width="170">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        
+        <div class="form-floating">
+            <input asp-for="Input.UserName" class="form-control" placeholder="username">
+            <label asp-for="Input.UserName" class="form-label"></label>
+            <span asp-validation-for="Input.UserName" class="text-danger mt-1 d-inline-block"></span>
+        </div>
+     
+        <div class="form-floating">
+            <input asp-for="Input.Password" class="form-control" placeholder="Password">
+            <label asp-for="Input.Password" class="form-label"></label>
+            <span asp-validation-for="Input.Password" class="text-danger mt-1 d-inline-block"></span>
+        </div>
+
+        <div class="form-group form-check">
+            <input asp-for="Input.RememberMe" >
+            <label class="form-check-label" asp-for="Input.RememberMe"></label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">@_localizer["sign-in"]</button>
+        <p class="mt-3 mb-3 text-muted">Bloggy CMS ©@DateTime.Now.Year</p>
+    </form>
+</main>

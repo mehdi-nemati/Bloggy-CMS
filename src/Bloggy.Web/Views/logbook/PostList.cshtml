@@ -1,0 +1,59 @@
+﻿@model Bloggy.Shared.Model.ListModel<Bloggy.Service.PostService.PostListSelectDto>
+
+<section class="section">
+    <div class="container">
+        @if (Model.Items.Count == 0)
+        {
+            <div class="text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" height="111" viewBox="0 96 960 960" width="111"><path d="m261 530 220-354 220 354H261Zm445 446q-74 0-124-50t-50-124q0-74 50-124t124-50q74 0 124 50t50 124q0 74-50 124t-124 50Zm-586-25V647h304v304H120Zm586.085-35Q754 916 787 882.916q33-33.085 33-81Q820 754 786.916 721q-33.085-33-81.001-33Q658 688 625 721.084q-33 33.085-33 81Q592 850 625.084 883q33.085 33 81.001 33ZM180 891h184V707H180v184Zm189-421h224L481 289 369 470Zm112 0ZM364 707Zm342 95Z" /></svg>
+                <br />
+                <b>No data found</b>
+            </div>
+        }
+        <div class="row">
+            <div class="col-12  mb-5 mb-lg-0">
+                @foreach (var item in Model.Items)
+                {
+                    <article class="row mb-5">
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <div class="post-slider slider-sm slick-initialized slick-slider">
+                                <div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 350px; transform: translate3d(0px, 0px, 0px);"><img loading="lazy" src="@item.CoverImage" class="img-fluid slick-slide slick-current slick-active" alt="post-thumb" style="height: 200px; object-fit: cover; width: 350px;" data-slick-index="0" aria-hidden="false" tabindex="0"></div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="h5">
+                                <a class="post-title" href="/post/@item.Slug">
+                                    @item.Title
+                                </a>
+                            </h3>
+                            <ul class="list-inline post-meta mb-2">
+                                <li class="list-inline-item">
+                                    <i class="ti-user mr-2"></i>@item.CreatorUserDisplayName
+                                </li>
+                                <li class="list-inline-item">Date : @item.CreateDate</li>
+                                <li class="list-inline-item">
+                                    Categories : <a href="/postlist?catId=@item.PostCategoryId" class="ml-1">@item.PostCategoryTitle </a>
+                                </li>
+                            </ul>
+                            <p>@item.ShortContent</p> <a href="/post/@item.Slug" class="btn btn-outline-primary">Continue Reading</a>
+                        </div>
+                    </article>
+                }
+
+            </div>
+        </div>
+
+        @if (Model.ItemCount > 10)
+        {
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    @for (int i = 1; i <= Math.Ceiling(decimal.Parse((Model.ItemCount / 10.0).ToString())); i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")"><a class="page-link" href="/postlist?Page=@i@ViewBag.CatId@ViewBag.SearchText">@i.ToString()</a></li>
+                    }
+                </ul>
+            </nav>
+        }
+
+    </div>
+</section>

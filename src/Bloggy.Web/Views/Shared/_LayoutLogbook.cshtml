@@ -1,0 +1,144 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+@using Microsoft.EntityFrameworkCore;
+@inject Bloggy.Service.SiteSettingService.ISiteSettingService settingService;
+@inject Bloggy.Service.MenuService.IMenuService menuService;
+@{
+    var FindedSetting = await settingService.GetFirstItemForEdit(CancellationToken.None);
+    var SiteMenu = await menuService.GetMenuWithChildren(CancellationToken.None);
+}
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"]</title>
+
+    <!-- mobile responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="@ViewData["Description"]">
+
+    <!-- plugins -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFWJ0bbck.woff2" style="font-display: optional;">
+    <link rel="stylesheet" href="/template/logbook/plugins/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:600%7cOpen&#43;Sans&amp;display=swap" media="screen">
+
+    <link rel="stylesheet" href="/template/logbook/plugins/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="/template/logbook/plugins/slick/slick.css">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/template/logbook/css/style.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="@(FindedSetting == null ? "" :FindedSetting.SiteFavIcon)" type="image/x-icon">
+    <link rel="icon" href="@(FindedSetting == null ? "" : FindedSetting.SiteFavIcon)" type="image/x-icon">
+
+    <script type="application/ld+json">
+        {
+        "@@context": "https://schema.org/",
+          "@@type": "WebSite",
+          "name": "@ViewData["Title"]",
+          "url": "@Context.Request.GetEncodedUrl()",
+          "logo":"@(FindedSetting == null ? "" : FindedSetting.SiteFavIcon)"
+        }
+    </script>
+</head>
+
+<body>
+    <!-- navigation -->
+    <header class="sticky-top bg-white border-bottom border-default">
+        <div class="container">
+
+            <nav class="navbar navbar-expand-lg navbar-white">
+                <a class="navbar-brand" href="/">
+                    <img class="img-fluid" width="150" src="@(FindedSetting == null ? "" : FindedSetting.SiteLogo)" alt="site logo">
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+                    <i class="ti-menu"></i>
+                </button>
+
+                <div class="collapse navbar-collapse text-center" id="navigation">
+                    <ul class="navbar-nav ml-auto">
+                        @foreach (var item in SiteMenu.Where(m => m.ParentId == null).OrderByDescending(m => m.Order))
+                        {
+                            if (item.Children.Count == 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@item.Url">@item.Title</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @item.Title <i class="ti-angle-down ml-1"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        @foreach (var subItem in item.Children.OrderByDescending(m => m.Order))
+                                        {
+                                            <a class="dropdown-item" href="@subItem.Url">@subItem.Title</a>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- /navigation -->
+
+    <section class="section">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </section>
+
+    <footer class="section-sm pb-0 border-top border-default">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-md-3 mb-4">
+                    <h6 class="mb-4">About site</h6>
+                    <p>@(FindedSetting == null ? "" : FindedSetting.SiteDesc)</p>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6 mb-4">
+                    <h6 class="mb-4">Quick Links</h6>
+                    <ul class="list-unstyled footer-list">
+                        <li><a href="/Account/Login">Admin Panel</a></li>
+                        <li><a href="/page/about-bloggy">About</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6 mb-4">
+                    <h6 class="mb-4">Social Links</h6>
+                    <ul class="list-unstyled footer-list">
+                        <li><a href="https://github.com/mehdi-nemati/Bloggy-CMS">github</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <h6 class="mb-4">Bloggy CMS</h6>
+                    <img width="100" src="/template/logbook/images/logo-top-transparent.png" />
+
+                </div>
+            </div>
+            <div class="scroll-top">
+                <a href="javascript:void(0);" id="scrollTop"><i class="ti-angle-up"></i></a>
+            </div>
+            <div class="text-center">
+                <p class="content">&copy; 2023 - Made By <a href="/" target="_blank">Bloggy CMS</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Plugins -->
+    <script src="/template/logbook/plugins/jQuery/jquery.min.js"></script>
+    <script src="/template/logbook/plugins/bootstrap/bootstrap.min.js" async></script>
+    <script src="/template/logbook/plugins/slick/slick.min.js"></script>
+
+    <!-- Main Script -->
+    <script src="/template/logbook/js/script.js"></script>
+</body>
+</html>

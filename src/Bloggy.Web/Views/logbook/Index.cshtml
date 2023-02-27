@@ -1,0 +1,93 @@
+﻿@model IndexItemsDto
+<div class="row">
+    <aside class="col-lg-4 order-2 order-lg-1">
+        <!-- Search -->
+        <div class="widget">
+            <h5 class="widget-title"><span>Search</span></h5>
+            <form action="/PostList" class="widget-search">
+                <input id="search-query" name="SearchText" type="search" placeholder="Type &amp; Hit Enter...">
+                <button type="submit">
+                    <i class="ti-search"></i>
+                </button>
+            </form>
+        </div>
+        <!-- categories -->
+        <div class="widget">
+            <h5 class="widget-title"><span>Categories</span></h5>
+            <ul class="list-unstyled widget-list">
+                @foreach (var item in Model.Cats)
+                {
+                    <li>
+                        <a href="/postlist?catId=@item.Id" class="d-flex">
+                            @item.Title
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.SideMenuTitle))
+        {
+            <div class="widget">
+                <h5 class="widget-title"><span>@Model.SideMenuTitle</span></h5>
+                @foreach (var item in Model.SideMenuItems)
+                {
+                    <ul class="list-unstyled widget-list">
+                        <li class="media widget-post align-items-center">
+                            <a href="/post/@item.Slug">
+                                <img loading="lazy" class="mr-3" src="@item.CoverImage">
+                            </a>
+                            <div class="media-body">
+                                <h5 class="h6 mb-0">
+                                    <a href="/post/@item.Slug">
+                                        @item.Title
+                                    </a>
+                                </h5>
+                                <small>@item.CreateDate</small>
+                            </div>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+        }
+
+    </aside>
+    <div class="col-lg-8 order-1 order-lg-2 mb-5 mb-lg-0">
+
+        @foreach (var item in Model.Posts)
+        {
+            <article class="row mb-5">
+                <div class="col-12">
+                    <div class="post-slider">
+                        <img loading="lazy" src="@item.CoverImage" class="img-fluid" alt="@item.Title">
+                    </div>
+                </div>
+                <div class="col-12 mx-auto">
+                    <h3>
+                        <a class="post-title" href="/post/@item.Slug">
+                            @item.Title
+                        </a>
+                    </h3>
+                    <ul class="list-inline post-meta mb-4">
+                        <li class="list-inline-item">
+                            <i class="ti-user mr-2"></i>@item.CreatorUserDisplayName
+                        </li>
+                        <li class="list-inline-item">Date : @item.CreateDate</li>
+                        @if (!string.IsNullOrEmpty(item.PostCategoryTitle))
+                        {
+                            <li class="list-inline-item">
+                                Categories : <a href="/postlist?catId=@item.PostCategoryId" class="ml-1">@item.PostCategoryTitle </a>
+                            </li>
+                        }
+                    </ul>
+                    <p>@item.ShortContent</p>
+                    <a href="/post/@item.Slug" class="btn btn-outline-primary">Continue Reading</a>
+                </div>
+            </article>
+
+        }
+
+    </div>
+</div>

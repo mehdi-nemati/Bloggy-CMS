@@ -1,0 +1,13 @@
+﻿@model Bloggy.Web.Areas.Admin.Models.UserDisplayNameDto
+@inject IStringLocalizer<SharedResources> _localizer
+
+<form action="/Admin/UserProfile/ChangeDisplayName" method="post">
+
+    <div class="form-floating">
+        <input asp-for="DisplayName" class="form-control" placeholder="username">
+        <label asp-for="DisplayName" class="form-label"></label>
+        <span asp-validation-for="DisplayName" class="text-danger mt-1 d-inline-block"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">@_localizer["submit"]</button>
+</form>

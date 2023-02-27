@@ -1,0 +1,16 @@
+﻿@model Bloggy.Service.DynamicPageService.DynamicPageSelectDto
+
+<section class="section">
+    <div class="container">
+        <article class="row mb-4">
+            <div class="col-lg-10 mx-auto mb-4">
+                <h1 class="h2 mb-3">@Model.Title</h1>
+            </div>
+            <div class="col-lg-10 mx-auto">
+                <div class="content">
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

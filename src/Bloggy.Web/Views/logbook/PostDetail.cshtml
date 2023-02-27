@@ -1,0 +1,32 @@
+﻿@model Bloggy.Service.PostService.PostSelectDto
+
+<section class="section">
+	<div class="container">
+		<article class="row mb-4">
+			<div class="col-lg-10 mx-auto mb-4">
+				<h1 class="h2 mb-3">@Model.Title</h1>
+				<ul class="list-inline post-meta mb-3">
+					<li class="list-inline-item">
+                        <i class="ti-user mr-2"></i>@Model.CreatorUserDisplayName
+					</li>
+					<li class="list-inline-item">Date : @Model.CreateDate</li>
+					<li class="list-inline-item">
+						Categories : <a href="/postlist?catId=@Model.PostCategoryId" class="ml-1">@Model.PostCategoryTitle </a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-12 mb-3">
+				<div class="post-slider">
+					<img src="@Model.CoverImage" class="img-fluid" alt="post-thumb">
+				</div>
+			</div>
+
+			<div class="col-lg-10 mx-auto">
+				<div class="content">
+					@Html.Raw(Model.Content)
+				</div>
+			</div>
+		</article>
+	</div>
+</section>

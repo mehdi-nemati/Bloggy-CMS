@@ -1,0 +1,107 @@
+﻿@model Bloggy.Service.PostService.PostInsertDto
+@inject IStringLocalizer<SharedResources> _localizer
+
+<form action="/Admin/Post/submit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CoverImage" />
+
+    <div class="form-floating">
+        <input asp-for="Title" class="form-control" placeholder="">
+        <label asp-for="Title" class="form-label"></label>
+        <span asp-validation-for="Title" class="text-danger mt-1 d-inline-block"></span>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="ShortContent" class="form-control" placeholder="">
+        <label asp-for="ShortContent" class="form-label"></label>
+        <span asp-validation-for="ShortContent" class="text-danger mt-1 d-inline-block"></span>
+    </div>
+
+    <label asp-for="Content" class="form-label"></label>
+    <textarea name="Content" id="Content" rows="10" cols="80">@Model.Content</textarea>
+
+    <div class="form-floating mt-3">
+        <input asp-for="Slug" class="form-control" placeholder="">
+        <label asp-for="Slug" class="form-label"></label>
+        <span asp-validation-for="Slug" class="text-danger mt-1 d-inline-block"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <label asp-for="PostCategoryId" class="control-label"></label>
+        <select class="form-control custom-select " asp-for="PostCategoryId" asp-items="Model.PostCategories">
+            <option value="">@_localizer["select-item"]</option>
+        </select>
+    </div>
+
+    <div class="form-group mt-3">
+        <label asp-for="CoverImageFile" class="control-label"></label>
+        <input asp-for="CoverImageFile" id="input-pic" class="file" />
+        <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-2 mt-3">
+        <input class="form-check-input" type="checkbox" asp-for="IsPublished">
+        <label asp-for="IsPublished" class="form-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-4 mb-5">@_localizer["submit"]</button>
+</form>
+
+
+
+
+@section Scripts{
+    <script src="~/admin/lib/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        CKEDITOR.replace('Content', {
+            removeDialogTabs: 'image:advanced;image:Link;link:advanced;link:upload',
+            file_picker_types: 'image',
+            filebrowserImageUploadUrl: '/admin/post/UploadImage' //Action for Uploding image
+        });
+    </script>
+
+    <partial name="_FileUploadPartial" />
+    <script>
+            @if (Model.CoverImage != null)
+            {
+                <text>
+                $('#input-pic').on('filedeleted', function (event, key, jqXHR, data) {
+                    $('#CoverImage').remove();
+                });
+
+            var url = '@Model.CoverImage';
+
+            $("#input-pic").fileinput({
+                language: "fa",
+                theme: "fa",
+                allowedFileExtensions: ["jpg", "png", "gif"],
+                initialPreview: [url],
+                initialPreviewAsData: true,
+                initialPreviewConfig: [
+                    { caption: "", downloadUrl: url, size: 0, width: "120px", key: @Model.Id }
+                ],
+                deleteUrl: "/admin/post/DeleteFileUpload/",
+                overwriteInitial: false,
+                maxFileSize: 3000,
+                showUpload: false,
+                initialCaption: "@_localizer["select-image"]"
+            });
+                </text>
+            }
+            else
+            {
+                <text>
+                $("#input-pic").fileinput({
+                    language: "fa",
+                    theme: "fa",
+                    allowedFileExtensions: ["jpg", "png", "gif"],
+                    overwriteInitial: false,
+                    maxFileSize: 3000,
+                    showUpload: false,
+                    initialCaption: "@_localizer["select-image"]"
+                });
+                </text>
+            }
+    </script>
+}
