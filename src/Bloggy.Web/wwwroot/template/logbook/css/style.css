@@ -171,9 +171,16 @@ a:hover {
 }
 
 .section {
-  padding-top: 100px;
+  padding-top: 50px;
   padding-bottom: 100px;
 }
+
+@media (max-width: 575px) {
+    .section {
+        padding-top: 20px;
+    }
+}
+
 .section-sm {
   padding-top: 80px;
   padding-bottom: 80px;

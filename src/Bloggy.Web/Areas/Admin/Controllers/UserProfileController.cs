@@ -71,12 +71,9 @@ namespace Bloggy.Web.Areas.Admin.Controllers
             return View(dto);
         }
 
-        public async Task<IActionResult> LogOut()
+        public async Task<IActionResult> LogOutUser()
         {
-            if (BloggyConst.DoNotChange)
-                return RedirectPermanent("/");
-
-            await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();           
             return RedirectPermanent("/");
         }
     }

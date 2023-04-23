@@ -32,7 +32,7 @@ namespace Bloggy.Service.PostService
 
             if (dto.CoverImageFile != null)
             {
-                var url = await _uploadService.UploadFile(dto.CoverImageFile, "post");
+                var url = await _uploadService.UploadFile(dto.CoverImageFile, "postCoverImage");
                 dto.CoverImage = url;
             }
 

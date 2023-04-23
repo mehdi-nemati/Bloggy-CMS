@@ -70,6 +70,7 @@ namespace Bloggy.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+            //Remove this condition for a real website
             if (BloggyConst.DoNotChange && Input.UserName == "admin" && Input.Password == "admin")
             {
                 var FindedUser = await _userManager.Users.FirstOrDefaultAsync();
