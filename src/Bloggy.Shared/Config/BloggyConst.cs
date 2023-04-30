@@ -3,8 +3,8 @@
     public static class BloggyConst
     {
         /// <summary>
-        /// Set it True on real website
+        /// Set it False on real website
         /// </summary>
-        public static bool DoNotChange = false;
+        public static bool DoNotChange = true;
     }
 }
