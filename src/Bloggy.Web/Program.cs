@@ -86,4 +86,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-app.Run();
+
+app.MigrateDatabase<BloggyDbContext>((context, services) =>
+{
+    var logger = services.GetService<ILogger<BloggyDbContextSeed>>();
+    BloggyDbContextSeed
+        .SeedAsync(context, logger)
+        .Wait();
+}).Run();

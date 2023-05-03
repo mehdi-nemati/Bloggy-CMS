@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  bloggydb:
+    container_name: bloggydb
+    environment:
+        SA_PASSWORD: "Bloggy12345678"
+        ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+        - "1433:1433"
+
+  bloggy.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "Bloggy:ConnectionString=Server=bloggydb;Database=BloggyMainDb;User Id=sa;Password=Bloggy12345678;TrustServerCertificate=True;"
+      - "Bloggy:SiteUrl=http://localhost:6031/"
+      - "Bloggy:DbProvider=SqlServer"
+      - "Bloggy:AdminDefaultName=admin"
+      - "Bloggy:AdminDefaultPassword=Admin123!"
+      - "Bloggy:ThemeName=logbook"
+    depends_on:
+        - bloggydb
+    ports:
+      - "6031:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

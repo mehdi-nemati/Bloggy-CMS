@@ -46,13 +46,18 @@ When you open `example.com/Account/Login/` , if there is no user in the database
 <img src="docs/ScreenShots/alert.png" alt="post" width="35%"> </div>
 <img src="docs/ScreenShots/mainpage.jpg" alt="post" width="70%">
 
+<hr>
+
+## Docker
+<img src="docs/ScreenShots/docker.jpg" alt="docker" width="70%">
+
 <br>
 <hr>
 
 ### Todo
+- [x] Docker
 - [ ] Another template
 - [ ] Slider module
-- [ ] Docker
 - [ ] Unit test
 - [ ] API
 - [ ] Post comment module

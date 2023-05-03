@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  bloggydb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  bloggy.web:
+    image: ${DOCKER_REGISTRY-}bloggyweb
+    build:
+      context: .
+      dockerfile: src/Bloggy.Web/Dockerfile
